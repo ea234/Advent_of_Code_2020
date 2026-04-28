@@ -37,7 +37,6 @@ function wl( pString : string ) // wl = short for "writeLog"
     console.log( pString );
 }
 
-
 class BagType
 {
     type_name : string; 
@@ -113,6 +112,35 @@ class BagType
 
         return count_bag_numbers;
     }
+
+    public countBags( pVector : BagType[] ) : number
+    {
+        let count_bag_numbers : number = 0;
+
+        for ( const cur_bag_type_name of Object.keys( this.contains_bags ) ) 
+        { 
+            const contains_number_of_bags : number = this.contains_bags[ cur_bag_type_name ]!; 
+
+            count_bag_numbers += contains_number_of_bags;
+
+            wl( "bag " + this.type_name + " contains " + contains_number_of_bags + " contains " + cur_bag_type_name );
+
+            if ( contains_number_of_bags > 0 )
+            {
+                let cur_bag = getBag( pVector, cur_bag_type_name );
+
+                if ( cur_bag !== undefined )
+                {
+                    if ( cur_bag.isNot( this.type_name ) )
+                    {
+                        count_bag_numbers += ( contains_number_of_bags * cur_bag.countBags( pVector ) );
+                    }
+                }
+            }
+        }
+
+        return count_bag_numbers;
+    }    
 }
 
 
@@ -142,6 +170,12 @@ function calcArray( pArray : string[], pKnzDebug : boolean = true ) : void
         }
     }
 
+    /*
+     * *******************************************************************************************************
+     * Calculating Part 1 
+     * *******************************************************************************************************
+     */
+
     let str_bag_type : string = "shiny gold";
 
     for ( const cur_bag of bag_vector ) 
@@ -156,11 +190,27 @@ function calcArray( pArray : string[], pKnzDebug : boolean = true ) : void
         }
     }
 
+    /*
+     * *******************************************************************************************************
+     * Calculating Part 2
+     * *******************************************************************************************************
+     */
+
+    let cur_bag = getBag( bag_vector, str_bag_type );
+
+    if ( cur_bag !== undefined )
+    {
+        result_part_02 = cur_bag.countBags(  bag_vector );
+    }
+
+
     wl( "" );
     wl( "Result Part 1 = " + result_part_01 );
     wl( "Result Part 2 = " + result_part_02 );
     wl( "" );
 }
+
+
 
 
 async function readFileLines() : Promise<string[]> 
@@ -215,11 +265,27 @@ function getTestArray1() : string[]
 }
 
 
+function getTestArray2() : string[] 
+{
+    const array_test: string[] = [];
+
+    array_test.push( "shiny gold bags contain 2 dark red bags."     );
+    array_test.push( "dark red bags contain 2 dark orange bags."    );
+    array_test.push( "dark orange bags contain 2 dark yellow bags." );
+    array_test.push( "dark yellow bags contain 2 dark green bags."  );
+    array_test.push( "dark green bags contain 2 dark blue bags."    );
+    array_test.push( "dark blue bags contain 2 dark violet bags."   );
+    array_test.push( "dark violet bags contain no other bags."      );
+
+    return array_test;
+}
+
+
 wl( "" );
 wl( "Day 07 - Handy Haversacks" );
 wl( "" );
 
-calcArray( getTestArray1(), true );
+calcArray( getTestArray2(), true );
 
 //checkReaddatei();
 
