@@ -81,7 +81,7 @@ function findTwoNumbers( pVektor : number[], pTargetNumber : number, pExcludeInd
     return { knz_ok : false, number_1 : 0, number_2 : 0 }
 }
 
-function calcArray( pArray : string[], pPeambleSize : number, pKnzDebug : boolean = true ) : void 
+function calcArray( pArray : string[], pPreambleSize : number, pKnzDebug : boolean = true ) : void 
 {
     let result_part_01 : number = 0;
     let result_part_02 : number = 0;
@@ -95,7 +95,7 @@ function calcArray( pArray : string[], pPeambleSize : number, pKnzDebug : boolea
     {
         step_counter++;
  
-        if ( step_counter <= pPeambleSize )
+        if ( step_counter <= pPreambleSize )
         {
             fifo_mem.push( parseInt( cur_input_str, 10 ) );
         }
@@ -103,7 +103,7 @@ function calcArray( pArray : string[], pPeambleSize : number, pKnzDebug : boolea
         {
             index_add++;
 
-            if ( index_add == pPeambleSize )
+            if ( index_add == pPreambleSize )
             {
                 index_add = 0;
             }
