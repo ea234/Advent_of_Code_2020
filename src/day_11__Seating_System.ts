@@ -121,8 +121,122 @@ import * as readline from 'readline';
  * iteration_nr  115  change_count    0  Seats empty   5001 occupied   2251
  * 
  * Result Part 1 = 2251
- * Result Part 2 = 0
+ * Result Part 2 = 2019
  * 
+ * ------------------ Part 2 --------------------------------------------------
+ * 
+ * /home/ea234/.nvm/versions/node/v20.16.0/bin/node ./dist/day11/day_11__Seating_System.js
+ * 
+ * Day 11 - Seating System
+ * 
+ * -----------------------------------------------------------------------------
+ * iteration_nr    0  change_count   71  Seats empty     71 occupied      0
+ * 
+ *      0123456789        0123456789
+ *   0  L.LL.LL.LL     0  #.##.##.##
+ *   1  LLLLLLL.LL     1  #######.##
+ *   2  L.L.L..L..     2  #.#.#..#..
+ *   3  LLLL.LL.LL     3  ####.##.##
+ *   4  L.LL.LL.LL     4  #.##.##.##
+ *   5  L.LLLLL.LL     5  #.#####.##
+ *   6  ..L.L.....     6  ..#.#.....
+ *   7  LLLLLLLLLL     7  ##########
+ *   8  L.LLLLLL.L     8  #.######.#
+ *   9  L.LLLLL.LL     9  #.#####.##
+ * 
+ * -----------------------------------------------------------------------------
+ * iteration_nr    1  change_count   64  Seats empty      0 occupied     71
+ * 
+ *      0123456789        0123456789
+ *   0  #.##.##.##     0  #.LL.LL.L#
+ *   1  #######.##     1  #LLLLLL.LL
+ *   2  #.#.#..#..     2  L.L.L..L..
+ *   3  ####.##.##     3  LLLL.LL.LL
+ *   4  #.##.##.##     4  L.LL.LL.LL
+ *   5  #.#####.##     5  L.LLLLL.LL
+ *   6  ..#.#.....     6  ..L.L.....
+ *   7  ##########     7  LLLLLLLLL#
+ *   8  #.######.#     8  #.LLLLLL.L
+ *   9  #.#####.##     9  #.LLLLL.L#
+ * 
+ * -----------------------------------------------------------------------------
+ * iteration_nr    2  change_count   46  Seats empty     64 occupied      7
+ * 
+ *      0123456789        0123456789
+ *   0  #.LL.LL.L#     0  #.L#.##.L#
+ *   1  #LLLLLL.LL     1  #L#####.LL
+ *   2  L.L.L..L..     2  L.#.#..#..
+ *   3  LLLL.LL.LL     3  ##L#.##.##
+ *   4  L.LL.LL.LL     4  #.##.#L.##
+ *   5  L.LLLLL.LL     5  #.#####.#L
+ *   6  ..L.L.....     6  ..#.#.....
+ *   7  LLLLLLLLL#     7  LLL####LL#
+ *   8  #.LLLLLL.L     8  #.L#####.L
+ *   9  #.LLLLL.L#     9  #.L####.L#
+ * 
+ * -----------------------------------------------------------------------------
+ * iteration_nr    3  change_count   35  Seats empty     18 occupied     53
+ * 
+ *      0123456789        0123456789
+ *   0  #.L#.##.L#     0  #.L#.L#.L#
+ *   1  #L#####.LL     1  #LLLLLL.LL
+ *   2  L.#.#..#..     2  L.L.L..#..
+ *   3  ##L#.##.##     3  ##LL.LL.L#
+ *   4  #.##.#L.##     4  L.LL.LL.L#
+ *   5  #.#####.#L     5  #.LLLLL.LL
+ *   6  ..#.#.....     6  ..L.L.....
+ *   7  LLL####LL#     7  LLLLLLLLL#
+ *   8  #.L#####.L     8  #.LLLLL#.L
+ *   9  #.L####.L#     9  #.L#LL#.L#
+ * 
+ * -----------------------------------------------------------------------------
+ * iteration_nr    4  change_count   13  Seats empty     53 occupied     18
+ * 
+ *      0123456789        0123456789
+ *   0  #.L#.L#.L#     0  #.L#.L#.L#
+ *   1  #LLLLLL.LL     1  #LLLLLL.LL
+ *   2  L.L.L..#..     2  L.L.L..#..
+ *   3  ##LL.LL.L#     3  ##L#.#L.L#
+ *   4  L.LL.LL.L#     4  L.L#.#L.L#
+ *   5  #.LLLLL.LL     5  #.L####.LL
+ *   6  ..L.L.....     6  ..#.#.....
+ *   7  LLLLLLLLL#     7  LLL###LLL#
+ *   8  #.LLLLL#.L     8  #.LLLLL#.L
+ *   9  #.L#LL#.L#     9  #.L#LL#.L#
+ * 
+ * -----------------------------------------------------------------------------
+ * iteration_nr    5  change_count    5  Seats empty     40 occupied     31
+ * 
+ *      0123456789        0123456789
+ *   0  #.L#.L#.L#     0  #.L#.L#.L#
+ *   1  #LLLLLL.LL     1  #LLLLLL.LL
+ *   2  L.L.L..#..     2  L.L.L..#..
+ *   3  ##L#.#L.L#     3  ##L#.#L.L#
+ *   4  L.L#.#L.L#     4  L.L#.LL.L#
+ *   5  #.L####.LL     5  #.LLLL#.LL
+ *   6  ..#.#.....     6  ..#.L.....
+ *   7  LLL###LLL#     7  LLL###LLL#
+ *   8  #.LLLLL#.L     8  #.LLLLL#.L
+ *   9  #.L#LL#.L#     9  #.L#LL#.L#
+ * 
+ * -----------------------------------------------------------------------------
+ * iteration_nr    6  change_count    0  Seats empty     45 occupied     26
+ * 
+ *      0123456789        0123456789
+ *   0  #.L#.L#.L#     0  #.L#.L#.L#
+ *   1  #LLLLLL.LL     1  #LLLLLL.LL
+ *   2  L.L.L..#..     2  L.L.L..#..
+ *   3  ##L#.#L.L#     3  ##L#.#L.L#
+ *   4  L.L#.LL.L#     4  L.L#.LL.L#
+ *   5  #.LLLL#.LL     5  #.LLLL#.LL
+ *   6  ..#.L.....     6  ..#.L.....
+ *   7  LLL###LLL#     7  LLL###LLL#
+ *   8  #.LLLLL#.L     8  #.LLLLL#.L
+ *   9  #.L#LL#.L#     9  #.L#LL#.L#
+ * 
+ * Result Part 2 = 26
+ * 
+ * Day 11 - End
  * 
  */
 
@@ -160,7 +274,7 @@ function padL( pInput : string | number, pPadLeft : number ) : string
 }
 
 
-function combineStrings(pString1: string | undefined | null, pString2: string | undefined | null): string 
+function combineStrings( pString1: string | undefined | null, pString2: string | undefined | null) : string 
 {
     const lines1 = ( pString1 != null ? pString1.split(/\r?\n/) : [] );
     const lines2 = ( pString2 != null ? pString2.split(/\r?\n/) : [] );
@@ -181,7 +295,7 @@ function combineStrings(pString1: string | undefined | null, pString2: string | 
 }
 
 
-function getDebugMap( pHashMap : PropertieMap, pMinRows : number, pMinCols : number, pMaxRows : number, pMaxCols : number, pPrefix : string ) : string 
+function getDebugMap( pMapInput : PropertieMap, pMinRows : number, pMinCols : number, pMaxRows : number, pMaxCols : number, pPrefix : string ) : string 
 {
     let str_result : string = "";
 
@@ -199,7 +313,7 @@ function getDebugMap( pHashMap : PropertieMap, pMinRows : number, pMinCols : num
 
         for ( let cur_col = pMinCols; cur_col < pMaxCols; cur_col++ )
         {
-            str_result += pHashMap[ pPrefix + "R" + cur_row  + "C" + cur_col ] ?? " ";
+            str_result += pMapInput[ pPrefix + "R" + cur_row  + "C" + cur_col ] ?? " ";
         }
     }
 
@@ -207,7 +321,7 @@ function getDebugMap( pHashMap : PropertieMap, pMinRows : number, pMinCols : num
 }
 
 
-function countTiles( pHashMap : PropertieMap, pMaxRows : number, pMaxCols : number, pTile : string, pPrefix : string ) : number
+function countTiles( pMapInput : PropertieMap, pMaxRows : number, pMaxCols : number, pTile : string, pPrefix : string ) : number
 {
     let count_tile : number = 0;
 
@@ -215,7 +329,7 @@ function countTiles( pHashMap : PropertieMap, pMaxRows : number, pMaxCols : numb
     {
         for ( let cur_col = 0; cur_col < pMaxCols; cur_col++ )
         {
-            if ( ( pHashMap[ pPrefix + "R" + cur_row  + "C" + cur_col  ] ?? CHAR_MAP_FLOOR ) == pTile )
+            if ( ( pMapInput[ pPrefix + "R" + cur_row  + "C" + cur_col  ] ?? CHAR_MAP_FLOOR ) == pTile )
             {
                 count_tile++;
             }
@@ -226,9 +340,9 @@ function countTiles( pHashMap : PropertieMap, pMaxRows : number, pMaxCols : numb
 }
 
 
-function addToSeatCount( pHashMap : PropertieMap, pKey : string, pSeatCount : SeatCount ) : void 
+function addToSeatCount( pMapInput : PropertieMap, pKey : string, pSeatCount : SeatCount ) : void 
 {
-    let map_tile : string =  pHashMap[ pKey ] ?? CHAR_NOT_MAP;
+    let map_tile : string =  pMapInput[ pKey ] ?? CHAR_NOT_MAP;
 
          if ( map_tile === CHAR_MAP_EMPTY_SEAT    ) { pSeatCount.empty++;    }
     else if ( map_tile === CHAR_MAP_OCCUPIED_SEAT ) { pSeatCount.occupied++; }
@@ -237,22 +351,192 @@ function addToSeatCount( pHashMap : PropertieMap, pKey : string, pSeatCount : Se
 }
 
 
-function getSeatCount( pHashMap : PropertieMap, pRow : number, pCol : number, pPrefix : string ) : SeatCount 
+function getSeatCountPart1( pMapInput : PropertieMap, pRow : number, pCol : number, pPrefix : string ) : SeatCount 
 {
     let result_seat_count : SeatCount = { floor : 0, empty : 0, occupied : 0, not_grid : 0 };
 
-    addToSeatCount( pHashMap, pPrefix + "R" + pRow + "C" + ( pCol - 1 ),       result_seat_count );
-    addToSeatCount( pHashMap, pPrefix + "R" + pRow + "C" + ( pCol + 1 ),       result_seat_count );
+    addToSeatCount( pMapInput, pPrefix + "R" + pRow + "C" + ( pCol - 1 ), result_seat_count );
+    addToSeatCount( pMapInput, pPrefix + "R" + pRow + "C" + ( pCol + 1 ), result_seat_count );
 
-    addToSeatCount( pHashMap, pPrefix + "R" + ( pRow-1 ) + "C" + ( pCol - 1 ), result_seat_count );
-    addToSeatCount( pHashMap, pPrefix + "R" + ( pRow-1 ) + "C" + pCol,         result_seat_count );
-    addToSeatCount( pHashMap, pPrefix + "R" + ( pRow-1 ) + "C" + ( pCol + 1 ), result_seat_count );
+    addToSeatCount( pMapInput, pPrefix + "R" + ( pRow-1 ) + "C" + ( pCol - 1 ), result_seat_count );
+    addToSeatCount( pMapInput, pPrefix + "R" + ( pRow-1 ) + "C" +   pCol,       result_seat_count );
+    addToSeatCount( pMapInput, pPrefix + "R" + ( pRow-1 ) + "C" + ( pCol + 1 ), result_seat_count );
 
-    addToSeatCount( pHashMap, pPrefix + "R" + ( pRow + 1 ) + "C" + ( pCol - 1 ), result_seat_count );
-    addToSeatCount( pHashMap, pPrefix + "R" + ( pRow + 1 ) + "C" + pCol,         result_seat_count );
-    addToSeatCount( pHashMap, pPrefix + "R" + ( pRow + 1 ) + "C" + ( pCol + 1 ), result_seat_count );
+    addToSeatCount( pMapInput, pPrefix + "R" + ( pRow + 1 ) + "C" + ( pCol - 1 ), result_seat_count );
+    addToSeatCount( pMapInput, pPrefix + "R" + ( pRow + 1 ) + "C" +   pCol,       result_seat_count );
+    addToSeatCount( pMapInput, pPrefix + "R" + ( pRow + 1 ) + "C" + ( pCol + 1 ), result_seat_count );
 
     return result_seat_count;
+}
+
+
+function searchSeat( pMapInput : PropertieMap, pRow : number, pCol : number, pDeltaRow : number, pDeltaCol : number,  pPrefix : string, pSeatCount : SeatCount ) : void
+{
+    let cur_row : number = pRow;
+    let cur_col : number = pCol;
+
+    let cur_char : string = "";
+
+    while ( cur_char !== CHAR_NOT_MAP )
+    {
+        cur_row += pDeltaRow;
+        cur_col += pDeltaCol;
+
+        cur_char = pMapInput[ pPrefix + "R" + cur_row + "C" + cur_col ] ?? CHAR_NOT_MAP;
+
+        if ( cur_char === CHAR_MAP_OCCUPIED_SEAT )
+        {
+            pSeatCount.occupied++;
+
+            return;
+        }
+
+        if ( cur_char === CHAR_MAP_EMPTY_SEAT )
+        {
+            pSeatCount.empty++;
+
+            return;
+        }
+    }
+
+    pSeatCount.not_grid++;
+}
+
+
+function getSeatCountPart2( pMapInput : PropertieMap, pRow : number, pCol : number, pPrefix : string ) : SeatCount 
+{
+    let result_seat_count : SeatCount = { floor : 0, empty : 0, occupied : 0, not_grid : 0 };
+
+    searchSeat( pMapInput, pRow, pCol,  0, -1, pPrefix, result_seat_count );
+    searchSeat( pMapInput, pRow, pCol,  0,  1, pPrefix, result_seat_count );
+
+    searchSeat( pMapInput, pRow, pCol, -1, -1, pPrefix, result_seat_count );
+    searchSeat( pMapInput, pRow, pCol, -1,  0, pPrefix, result_seat_count );
+    searchSeat( pMapInput, pRow, pCol, -1,  1, pPrefix, result_seat_count );
+
+    searchSeat( pMapInput, pRow, pCol,  1, -1, pPrefix, result_seat_count );
+    searchSeat( pMapInput, pRow, pCol,  1,  0, pPrefix, result_seat_count );
+    searchSeat( pMapInput, pRow, pCol,  1,  1, pPrefix, result_seat_count );
+
+    return result_seat_count;
+}
+
+
+function calcOccupiedSeats( pMapInput : PropertieMap, pGridRows : number, pGridCols : number, pNrOfOccSeats : number, pKnzDebug : boolean, pKnzCalcPart1 : boolean ) : number 
+{
+    let seat_occupied      : number  = 0;
+
+    let map_toggle         : boolean = true;
+
+    let prefix_source      : string  = "";
+
+    let prefix_destination : string  = PREFIX_MAP_2;
+
+    for ( let iteration_nr = 0; iteration_nr < 32000; iteration_nr++ )
+    {
+        if ( map_toggle )
+        {
+            prefix_source      = PREFIX_MAP_1;
+            prefix_destination = PREFIX_MAP_2;
+        }
+        else
+        {
+            prefix_source      = PREFIX_MAP_2;
+            prefix_destination = PREFIX_MAP_1;
+        }
+
+        map_toggle = !map_toggle;
+
+        seat_occupied = 0;
+
+        let change_count : number = 0;
+
+        let seat_free    : number = 0;
+
+        for ( let cur_row = 0; cur_row < pGridRows; cur_row++ )
+        {
+            for ( let cur_col = 0; cur_col < pGridCols; cur_col++ )
+            {
+                let seat_cur : string = pMapInput[ prefix_source + "R" + cur_row  + "C" + cur_col ] ?? CHAR_MAP_FLOOR;
+
+                if ( seat_cur === CHAR_MAP_FLOOR )
+                {
+                    pMapInput[ prefix_destination + "R" + cur_row  + "C" + cur_col ] = CHAR_MAP_FLOOR;
+                }
+                else
+                {
+                    let seat_count : SeatCount;
+                    
+                    if ( pKnzCalcPart1 )
+                    {
+                        seat_count = getSeatCountPart1( pMapInput, cur_row, cur_col, prefix_source );
+                    }
+                    else
+                    {
+                        seat_count = getSeatCountPart2( pMapInput, cur_row, cur_col, prefix_source );
+                    }                    
+
+                    if ( seat_cur === CHAR_MAP_EMPTY_SEAT ) 
+                    {
+                        seat_free++;
+
+                        let empty_seats_adjacent : number = seat_count.empty + seat_count.floor + seat_count.not_grid;
+
+                        if ( empty_seats_adjacent === 8 )
+                        { 
+                            pMapInput[ prefix_destination + "R" + cur_row  + "C" + cur_col ] = CHAR_MAP_OCCUPIED_SEAT;
+
+                            change_count++;
+                        }
+                        else
+                        { 
+                            pMapInput[ prefix_destination + "R" + cur_row  + "C" + cur_col ] = CHAR_MAP_EMPTY_SEAT;
+                        }
+                    }
+                    else if ( seat_cur === CHAR_MAP_OCCUPIED_SEAT ) 
+                    {
+                        seat_occupied++;
+
+                        if ( seat_count.occupied >= pNrOfOccSeats )
+                        { 
+                            pMapInput[ prefix_destination + "R" + cur_row  + "C" + cur_col ] = CHAR_MAP_EMPTY_SEAT;
+
+                            change_count++;
+                        }
+                        else
+                        { 
+                            pMapInput[ prefix_destination + "R" + cur_row  + "C" + cur_col ] = CHAR_MAP_OCCUPIED_SEAT;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ( pKnzDebug )
+        {
+            wl( "" );
+            wl( "-----------------------------------------------------------------------------" );
+        }
+
+        wl( "iteration_nr " + padL( iteration_nr, 4 ) + "  change_count " + padL( change_count, 4 ) + "  Seats empty " + padL( seat_free, 6 ) + " occupied " + padL( seat_occupied, 6 ) );
+
+        if ( pKnzDebug )
+        {
+            let dbg_map_source      = getDebugMap( pMapInput, 0, 0, pGridRows, pGridCols, prefix_source      );
+            let dbg_map_destination = getDebugMap( pMapInput, 0, 0, pGridRows, pGridCols, prefix_destination );
+
+            wl( "" );
+            wl( combineStrings( dbg_map_source, dbg_map_destination ) );
+            wl( "" );
+        }
+
+        if ( change_count === 0 )
+        {
+            break;
+        }
+    }
+
+    return seat_occupied;
 }
 
 
@@ -283,107 +567,11 @@ function calcArray( pArray : string[], pKnzDebug : boolean = true ) : void
 
     grid_cols++;
 
-    let toggle_map         : boolean = true;
-    let prefix_source      : string = "";
-    let prefix_destination : string = PREFIX_MAP_2;
+    let map_save : PropertieMap = { ...map_input };
 
-    let change_count : number = 0;
+    result_part_01 = calcOccupiedSeats( map_input, grid_rows, grid_cols, 4, pKnzDebug, true  );
 
-    for ( let iteration_nr = 0; iteration_nr < 32000; iteration_nr++ )
-    {
-        if ( toggle_map )
-        {
-            prefix_source      = PREFIX_MAP_1;
-            prefix_destination = PREFIX_MAP_2;
-        }
-        else
-        {
-            prefix_source      = PREFIX_MAP_2;
-            prefix_destination = PREFIX_MAP_1;
-        }
-
-        toggle_map = !toggle_map;
-
-        change_count = 0;
-
-        let seat_occupied : number = 0;
-        let seat_free     : number = 0;
-
-        for ( let cur_row = 0; cur_row < grid_rows; cur_row++ )
-        {
-            for ( let cur_col = 0; cur_col < grid_cols; cur_col++ )
-            {
-                let seat_cur : string = map_input[ prefix_source + "R" + cur_row  + "C" + cur_col ] ?? CHAR_MAP_FLOOR;
-
-                if ( seat_cur === CHAR_MAP_FLOOR )
-                {
-                    map_input[ prefix_destination + "R" + cur_row  + "C" + cur_col ] = CHAR_MAP_FLOOR;
-                }
-                else
-                {
-                    let seat_count : SeatCount = getSeatCount( map_input, cur_row, cur_col, prefix_source );
-
-                    if ( seat_cur === CHAR_MAP_EMPTY_SEAT ) 
-                    {
-                        seat_free++;
-
-                        let empty_seats_adjacent : number = seat_count.empty + seat_count.floor + seat_count.not_grid;
-
-                        if ( empty_seats_adjacent === 8 )
-                        { 
-                            map_input[ prefix_destination + "R" + cur_row  + "C" + cur_col ] = CHAR_MAP_OCCUPIED_SEAT;
-
-                            change_count++;
-                        }
-                        else
-                        { 
-                            map_input[ prefix_destination + "R" + cur_row  + "C" + cur_col ] = CHAR_MAP_EMPTY_SEAT;
-                        }
-                    }
-                    else if ( seat_cur === CHAR_MAP_OCCUPIED_SEAT ) 
-                    {
-                        seat_occupied++;
-
-                        if ( seat_count.occupied >= 4 )
-                        { 
-                            map_input[ prefix_destination + "R" + cur_row  + "C" + cur_col ] = CHAR_MAP_EMPTY_SEAT;
-
-                            change_count++;
-                        }
-                        else
-                        { 
-                            map_input[ prefix_destination + "R" + cur_row  + "C" + cur_col ] = CHAR_MAP_OCCUPIED_SEAT;
-                        }
-                    }
-                }
-            }
-        }
-
-        if ( pKnzDebug )
-        {
-            wl( "" );
-            wl( "-----------------------------------------------------------------------------" );
-        }
-
-        wl( "iteration_nr " + padL( iteration_nr, 4 ) + "  change_count " + padL( change_count, 4 ) + "  Seats empty " + padL( seat_free, 6 ) + " occupied " + padL( seat_occupied, 6 ) );
-
-        if ( pKnzDebug )
-        {
-            let dbg_map_source      = getDebugMap( map_input, 0, 0, grid_rows, grid_cols, prefix_source );
-            let dbg_map_destination = getDebugMap( map_input, 0, 0, grid_rows, grid_cols, prefix_destination );
-
-            wl( "" );
-            wl( combineStrings( dbg_map_source, dbg_map_destination ) );
-            wl( "" );
-        }
-
-        if ( change_count === 0 )
-        {
-            break;
-        }
-    }
-
-    result_part_01 = countTiles( map_input, grid_rows, grid_cols, CHAR_MAP_OCCUPIED_SEAT, prefix_destination );
+    result_part_02 = calcOccupiedSeats( map_save,  grid_rows, grid_cols, 5, pKnzDebug, false );
 
     wl( "" );
     wl( "Result Part 1 = " + result_part_01 );
@@ -451,7 +639,7 @@ wl( "" );
 
 calcArray( getTestArray1(), true );
 
-checkReaddatei();
+//checkReaddatei();
 
 wl( "" )
 wl( "Day 11 - End " );
