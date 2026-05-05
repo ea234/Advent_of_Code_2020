@@ -43,44 +43,18 @@ class FktParser
 
         wl( this.input_string )
 
-        // let term_result : number = 0;
+        let term_result : number = this.parseTerm();
 
-        // while ( this.read() )
-        // {
-        //     if ( this.cur_char === ' ' )
-        //     {
-        //         // White-Space ... do nothing
-        //     }
-        //     else if ( this.cur_char >= '+' ) 
-        //     {  
-        //         wl( "+ parse new term");
-        //         /*
-        //          * Operator '+' = parse new term and add the result to the current term result
-        //          */
-        //         term_result = term_result + this.parseTerm();
 
-        //         wl( "########## + end result is " + term_result );
-
-        //     }
-        //     else if ( this.cur_char >= '*' ) 
-        //     {  
-        //         wl( "* parse new term");
-        //         /*
-        //          * Operator '*' = parse new term and add the result to the current term result
-        //          */
-        //         term_result = term_result * this.parseTerm();
-
-        //         wl( "########## * end result is " + term_result );
-        //     }
-        // }
-
-        return this.parseTerm();
+       return term_result;
     }
 
     public parseTerm() : number
     {
-
         let term_result : number = 0;
+
+//        this.readWhiteSpace();
+
 
         while ( this.read() )
         {
@@ -90,59 +64,70 @@ class FktParser
             }
             else if ( ( this.cur_char >= '0' ) && ( this.cur_char <= '9') )
             {  
-                /*
-                 * Number found 
-                 */
                 term_result = this.parseNumber();
 
-                wl( padL( this.index_read, 4 ) + " Number        "  + padL( term_result, 8 ) );
+                wl( padL( this.index_read, 4 ) + "   |   Number        "  + padL( term_result, 8 ) );
 
-                return term_result;
+                //return term_result;
             }
             else if ( this.cur_char === '+' ) 
             {  
-                wl( padL( this.index_read, 4 ) + " + parseTerm S "  + padL( term_result, 8 ) );
+                wl( padL( this.index_read, 4 ) + "   |   + parseTerm S "  + padL( term_result, 8 ) );
 
                 /*
                  * Operator '+' = parse new term and add the result to the current term result
                  */
                 term_result = term_result + this.parseTerm();
 
-                wl( padL( this.index_read, 4 ) + " + parseTerm E "  + padL( term_result, 8 ) );
-
+                wl( padL( this.index_read, 4 ) + "   |   + parseTerm E "  + padL( term_result, 8 ) );
             }
             else if ( this.cur_char === '*' ) 
             {  
-                wl( padL( this.index_read, 4 ) + " * parseTerm S "  + padL( term_result, 8 ) );
+                wl( padL( this.index_read, 4 ) + "   |   * parseTerm S "  + padL( term_result, 8 ) );
                 /*
                  * Operator '*' = parse new term and add the result to the current term result
                  */
                 term_result = term_result * this.parseTerm();
 
-                wl( padL( this.index_read, 4 ) + " * parseTerm E "  + padL( term_result, 8 ) );
+                wl( padL( this.index_read, 4 ) + "   |   * parseTerm E "  + padL( term_result, 8 ) );
             }
             else if ( this.cur_char === ')' ) 
             {  
-                wl( padL( this.index_read, 4 ) + " ) parseTerm E "  + padL( term_result, 8 ) );
+                wl( padL( this.index_read, 4 ) + "   |   ) parseTerm E "  + padL( term_result, 8 ) );
 
                 return term_result;
             }
             else if ( this.cur_char === '(' ) 
             {  
-                wl( padL( this.index_read, 4 ) + " ( parseTerm S "  + padL( term_result, 8 ) );
+                wl( padL( this.index_read, 4 ) + "   |   ( parseTerm S "  + padL( term_result, 8 ) );
 
                 term_result = this.parseTerm();
             }
          }
 
-        wl( padL( this.index_read, 4 ) + " End parseFkt  "  + padL( term_result, 8 ) );
+        wl( padL( this.index_read, 4 ) + "   |   End parseFkt  "  + padL( term_result, 8 ) );
 
          return term_result;
     }
 
     private parseParenthesis() : number
     {
-        return 0;
+        /*
+         * Parser stands on (
+         */
+        this.read();
+
+        this.readWhiteSpace();
+
+        let term_result : number = this.parseTerm();
+
+        /*
+         * Consume the ) character
+         */
+        this.read();
+
+
+        return term_result;
     }
 
     private parseNumber() : number
@@ -176,6 +161,15 @@ class FktParser
          * return true, if the new character is a number
          */
         return ( ( this.cur_char >= '0' ) && ( this.cur_char <= '9' ) );
+    }
+
+
+    private readWhiteSpace()
+    {
+        while ( this.cur_char === ' ' )
+        {
+            this.read();
+        }
     }
 
     private read() : boolean
@@ -291,7 +285,8 @@ wl( "" );
 
 //let test1 : FktParser = new FktParser( "2 * 3 + (4 * 5)" );
 //let test1 : FktParser = new FktParser( "2 * 3 + (4 * 5)" );
-let test1 : FktParser = new FktParser( "     2  *  3  + (    500   +      500 )  " );
+//let test1 : FktParser = new FktParser( "     2  *  3  + (    500   +      500 )  " );
+let test1 : FktParser = new FktParser( "     2  *  3  +  4 " );
 
 let vv : number = test1.parseStart();
 
