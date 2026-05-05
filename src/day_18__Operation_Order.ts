@@ -85,6 +85,79 @@ import * as readline from 'readline';
  * 
  * Day 18 - End
  * 
+ * 
+ * PART 2
+ * 
+ * 1 + (2 * 3) + (4 * (5 + 6))                        = 51     => expected 51  OK
+ * 2 * 3 + (4 * 5)                                    = 46     => expected 46  OK
+ * 5 + (8 * 3 + 9 + 3 * 4 * 3)                        = 1445   => expected 1445  OK
+ * 5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))          = 669060 => expected 669060  OK
+ * ((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2    = 23976  => expected 23340  #### ERROR ####
+ * (((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2 ) = 23976  => expected 23340  #### ERROR ####
+ * 
+ * /home/ea234/.nvm/versions/node/v20.16.0/bin/node ./dist/day18/day_18__Operation_Order.js
+ * 
+ * Day 18 - Operation Order
+ * 
+ * ----------------------------------------------------------------------
+ * 
+ *    3 | Recursion Nr   0 | Number      2   =        2
+ *    7 | Recursion Nr   0 | Number      4 + =        6
+ *   11 | Recursion Nr   0 | Number      9   =        9
+ *   12 | Recursion Nr   1 | *           9   =       54
+ *   17 | Recursion Nr   1 | Number      6   =        6
+ *   21 | Recursion Nr   1 | Number      9 + =       15
+ *   25 | Recursion Nr   1 | Number      8   =        8
+ *   29 | Recursion Nr   1 | Number      6 + =       14
+ *   30 | Recursion Nr   2 | *          14   =      210
+ *   34 | Recursion Nr   2 | Number      6 + =      216
+ *   35 | Recursion Nr   2 | ()        216   =      216
+ *   39 | Recursion Nr   2 | Number      2 + =      218
+ *   43 | Recursion Nr   2 | Number      4 + =      222
+ *   48 | Recursion Nr   2 | Number      2   =        2
+ *   48 | Recursion Nr   2 | Parser End      =        2
+ *   48 | Recursion Nr   3 | *           2   =      444
+ *   48 | Recursion Nr   3 | Parser End      =      444
+ *   48 | Recursion Nr   2 | *         444   =    23976
+ *   48 | Recursion Nr   2 | Parser End      =    23976
+ *   48 | Recursion Nr   1 | ()      23976   =    23976
+ *   48 | Recursion Nr   1 | Parser End      =    23976
+ *   48 | Recursion Nr   1 | ()      23976   =    23976
+ *   48 | Recursion Nr   1 | Parser End      =    23976
+ * 
+ * ((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2  = 23976
+ * 
+ * ((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2  = 23976 => expected 23340  #### ERROR ####
+ * 
+ * ----------------------------------------------------------------------
+ * 
+ *    1 | Recursion Nr   0 | Number      1   =        1
+ *    5 | Recursion Nr   0 | Number      2 + =        3
+ *    9 | Recursion Nr   0 | Number      3   =        3
+ *   13 | Recursion Nr   0 | Number      4 + =        7
+ *   17 | Recursion Nr   0 | Number      5   =        5
+ *   21 | Recursion Nr   0 | Number      6 + =       11
+ *   21 | Recursion Nr   0 | Parser End      =       11
+ *   21 | Recursion Nr   1 | *          11   =       77
+ *   21 | Recursion Nr   1 | Parser End      =       77
+ *   21 | Recursion Nr   1 | *          77   =      231
+ *   21 | Recursion Nr   1 | Parser End      =      231
+ * 
+ * 1 + 2 * 3 + 4 * 5 + 6 = 231
+ * 
+ * 1 + 2 * 3 + 4 * 5 + 6 = 231 => expected 231  OK
+ * 
+ * ---------------------------------------------------------------
+ * 1 + 2 * 3 + 4 * 5 + 6
+ *   3   * 3 + 4 * 5 + 6
+ *   3   *   7   * 5 + 6
+ *   3   *   7   *  11
+ *      21       *  11
+ *          231
+ * ---------------------------------------------------------------
+ * 
+ * Day 18 - End
+ * 
  */
 
 function wl( pString : string ) // wl = short for "writeLog"
@@ -114,11 +187,15 @@ class FktParser
 
     index_read   : number = 0;
 
-    public parseStart( pInput : string, pKnzDebug : boolean ) : number
+    knz_is_part2 : boolean = false;
+
+    public parseStart( pInput : string, pKnzPart2 : boolean, pKnzDebug : boolean ) : number
     {
         this.input_string = pInput;
 
         this.index_read = 0;
+
+        this.knz_is_part2 = pKnzPart2;
 
         if ( pKnzDebug )
         {
@@ -176,6 +253,27 @@ class FktParser
             else if ( this.cur_char === '*' ) 
             {  
                 last_op = '*';
+
+                if ( this.knz_is_part2 )
+                {
+                    let new_number : number = this.parseTerm( pRecursionNr++, pKnzDebug );
+
+                    if ( new_number === 59046 )
+                    {
+                        wl( "Break" );
+                    }
+
+                        if ( last_op === '+' ) { term_result += new_number; }
+                    else if ( last_op === '*' ) { term_result *= new_number; }
+                    else { term_result = new_number; }
+
+                    last_op = ' ';
+
+                    if ( pKnzDebug )
+                    {
+                        wl( padL( this.index_read, 4 ) + " | Recursion Nr " + padL( pRecursionNr, 3 ) +  " | *      " + padL( new_number, 6 ) + " " + last_op + " = " + padL( term_result, 8 ) );
+                    }
+                }
             }
             else if ( this.cur_char === ')' ) 
             {  
@@ -281,7 +379,7 @@ function calcArray( pArray : string[], pKnzDebug : boolean = true ) : void
 
     for ( const cur_input_str of pArray ) 
     {
-       let number_from_function : number = fkt_parser.parseStart( cur_input_str, pKnzDebug );
+       let number_from_function : number = fkt_parser.parseStart( cur_input_str, false, pKnzDebug );
 
        wl( cur_input_str + " = " + number_from_function + " =>  " + result_part_01 );
 
@@ -339,14 +437,14 @@ function getTestArray1() : string[]
 }
 
 
-function testCalcFunction( pInput : string, pExpect : number, pKnzDebug : boolean = false ) : void
+function testCalcFunction( pInput : string, pExpect : number, pKnzPart2 : boolean, pKnzDebug : boolean = false ) : void
 {
     let fkt_parser : FktParser = new FktParser();
 
     wl( "" );
     wl( "----------------------------------------------------------------------" );
 
-    let number_from_function : number = fkt_parser.parseStart( pInput, pKnzDebug );
+    let number_from_function : number = fkt_parser.parseStart( pInput, pKnzPart2, true );
 
     wl( pInput + " = " + number_from_function + " => expected " + pExpect + "  " + ( number_from_function === pExpect ? "OK" : "#### ERROR ####" ) );
 }
@@ -356,10 +454,21 @@ wl( "" );
 wl( "Day 18 - Operation Order" );
 wl( "" );
 
-testCalcFunction( "2 * 3 + (4 * 5) ",                                    26, true );
-testCalcFunction( "5 + (8 * 3 + 9 + 3 * 4 * 3) ",                       437, true );
-testCalcFunction( "5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4)) ",       12240, true );
-testCalcFunction( "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2 ", 13632, true );
+// testCalcFunction( "2 * 3 + (4 * 5) ",                                    26, false, true );
+// testCalcFunction( "5 + (8 * 3 + 9 + 3 * 4 * 3) ",                       437, false, true );
+// testCalcFunction( "5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4)) ",       12240, false, true );
+// testCalcFunction( "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2 ", 13632, false, true );
+
+// testCalcFunction( "1 + (2 * 3) + (4 * (5 + 6))",                          51, true, true );
+// testCalcFunction( "2 * 3 + (4 * 5) ",                                     46, true, true );
+// testCalcFunction( "5 + (8 * 3 + 9 + 3 * 4 * 3) ",                       1445, true, true );
+// testCalcFunction( "5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4)) ",       669060, true, true );
+testCalcFunction( "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2 + 0",  23340, true, true );
+
+testCalcFunction( "1 + 2 * 3 + 4 * 5 + 6",  231, true, true );
+
+
+
 
 //calcArray( getTestArray1(), true );
 
@@ -367,7 +476,7 @@ wl( "")
 wl( "---------------------------------------------------------------")
 wl( "")
 
-checkReaddatei();
+//checkReaddatei();
 
 wl( "" )
 wl( "Day 18 - End " );
