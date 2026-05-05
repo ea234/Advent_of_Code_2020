@@ -41,11 +41,45 @@ class FktParser
     {
         this.index_read = 0;
 
+        wl( this.input_string )
+
+        // let term_result : number = 0;
+
+        // while ( this.read() )
+        // {
+        //     if ( this.cur_char === ' ' )
+        //     {
+        //         // White-Space ... do nothing
+        //     }
+        //     else if ( this.cur_char >= '+' ) 
+        //     {  
+        //         wl( "+ parse new term");
+        //         /*
+        //          * Operator '+' = parse new term and add the result to the current term result
+        //          */
+        //         term_result = term_result + this.parseTerm();
+
+        //         wl( "########## + end result is " + term_result );
+
+        //     }
+        //     else if ( this.cur_char >= '*' ) 
+        //     {  
+        //         wl( "* parse new term");
+        //         /*
+        //          * Operator '*' = parse new term and add the result to the current term result
+        //          */
+        //         term_result = term_result * this.parseTerm();
+
+        //         wl( "########## * end result is " + term_result );
+        //     }
+        // }
+
         return this.parseTerm();
     }
 
     public parseTerm() : number
     {
+
         let term_result : number = 0;
 
         while ( this.read() )
@@ -60,30 +94,48 @@ class FktParser
                  * Number found 
                  */
                 term_result = this.parseNumber();
+
+                wl( padL( this.index_read, 4 ) + " Number        "  + padL( term_result, 8 ) );
+
+                return term_result;
             }
-            else if ( this.cur_char >= '+' ) 
+            else if ( this.cur_char === '+' ) 
             {  
+                wl( padL( this.index_read, 4 ) + " + parseTerm S "  + padL( term_result, 8 ) );
+
                 /*
                  * Operator '+' = parse new term and add the result to the current term result
                  */
-                term_result += this.parseTerm();
+                term_result = term_result + this.parseTerm();
+
+                wl( padL( this.index_read, 4 ) + " + parseTerm E "  + padL( term_result, 8 ) );
+
             }
-            else if ( this.cur_char >= '*' ) 
+            else if ( this.cur_char === '*' ) 
             {  
+                wl( padL( this.index_read, 4 ) + " * parseTerm S "  + padL( term_result, 8 ) );
                 /*
                  * Operator '*' = parse new term and add the result to the current term result
                  */
-                term_result *= this.parseTerm();
+                term_result = term_result * this.parseTerm();
+
+                wl( padL( this.index_read, 4 ) + " * parseTerm E "  + padL( term_result, 8 ) );
             }
-            else if ( this.cur_char <= ')' ) 
+            else if ( this.cur_char === ')' ) 
             {  
+                wl( padL( this.index_read, 4 ) + " ) parseTerm E "  + padL( term_result, 8 ) );
+
                 return term_result;
             }
-            else if ( this.cur_char <= '(' ) 
+            else if ( this.cur_char === '(' ) 
             {  
+                wl( padL( this.index_read, 4 ) + " ( parseTerm S "  + padL( term_result, 8 ) );
+
                 term_result = this.parseTerm();
             }
          }
+
+        wl( padL( this.index_read, 4 ) + " End parseFkt  "  + padL( term_result, 8 ) );
 
          return term_result;
     }
@@ -105,12 +157,9 @@ class FktParser
          */
         while ( this.readNumber() )
         {
-            number_read += this.cur_char.charCodeAt( 0 ) - 48;
+            number_read = ( number_read * 10 ) + this.cur_char.charCodeAt( 0 ) - 48;
         }
 
-        /*
-         * There was one to many characters read. (<= if this good english ... no ... sorry)
-         */
         this.index_read--;
 
         return number_read;     
@@ -233,12 +282,20 @@ wl( "Day 18 - Operation Order" );
 wl( "" );
 
 
-testCalcFunction( "2 * 3 + (4 * 5)                                 ",    26, true );
-testCalcFunction( "5 + (8 * 3 + 9 + 3 * 4 * 3)                     ",   437, true );
-testCalcFunction( "5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))       ", 12240, true );
-testCalcFunction( "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2 ", 13632, true );
+// testCalcFunction( "2 * 3 + (4 * 5)                                 ",    26, true );
+// testCalcFunction( "5 + (8 * 3 + 9 + 3 * 4 * 3)                     ",   437, true );
+// testCalcFunction( "5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))       ", 12240, true );
+// testCalcFunction( "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2 ", 13632, true );
 
 //calcArray( getTestArray1(), true );
+
+//let test1 : FktParser = new FktParser( "2 * 3 + (4 * 5)" );
+//let test1 : FktParser = new FktParser( "2 * 3 + (4 * 5)" );
+let test1 : FktParser = new FktParser( "     2  *  3  + (    500   +      500 )  " );
+
+let vv : number = test1.parseStart();
+
+wl( "Resul is " + vv)
 
 wl( "")
 wl( "---------------------------------------------------------------")
