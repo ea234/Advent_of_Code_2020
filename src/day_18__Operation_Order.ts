@@ -156,6 +156,42 @@ import * as readline from 'readline';
  *          231
  * ---------------------------------------------------------------
  * 
+ * /home/ea234/.nvm/versions/node/v20.16.0/bin/node ./dist/day18/day_18__Operation_Order.js
+ * 
+ * Day 18 - Operation Order
+ * 
+ * ----------------------------------------------------------------------
+ * 
+ *    3 | Recursion Nr   0 | Number      1   =        1
+ *    7 | Recursion Nr   0 | Number      1 + =        2
+ *   12 | Recursion Nr   0 | Number     10   =       10
+ *   13 | Recursion Nr   1 | *          10   =       20
+ *   18 | Recursion Nr   1 | Number      1   =        1
+ *   22 | Recursion Nr   1 | Number      1 + =        2
+ *   26 | Recursion Nr   1 | Number      2   =        2
+ *   30 | Recursion Nr   1 | Number      2 + =        4
+ *   31 | Recursion Nr   2 | *           4   =        8
+ *   36 | Recursion Nr   2 | Number     20 + =       28
+ *   37 | Recursion Nr   2 | ()         28   =       28
+ *   42 | Recursion Nr   2 | Number     30 + =       58
+ *   47 | Recursion Nr   2 | Number     40 + =       98
+ *   52 | Recursion Nr   2 | Number     50   =       50
+ *   52 | Recursion Nr   2 | Parser End      =       50
+ *   52 | Recursion Nr   3 | *          50   =     4900
+ *   52 | Recursion Nr   3 | Parser End      =     4900
+ *   52 | Recursion Nr   2 | *        4900   =    98000
+ *   52 | Recursion Nr   2 | Parser End      =    98000
+ *   52 | Recursion Nr   1 | ()      98000   =    98000
+ *   52 | Recursion Nr   1 | Parser End      =    98000
+ *   52 | Recursion Nr   1 | ()      98000   =    98000
+ *   52 | Recursion Nr   1 | Parser End      =    98000
+ * 
+ * ((1 + 1 * 10) * (1 + 1 * 2 + 2) + 20) + 30 + 40 * 50 = 98000
+ * 
+ * ((1 + 1 * 10) * (1 + 1 * 2 + 2) + 20) + 30 + 40 * 50 = 98000 => expected 23340  #### ERROR ####
+ * 
+ * ---------------------------------------------------------------
+ * 
  * Day 18 - End
  * 
  */
@@ -238,7 +274,7 @@ class FktParser
 
                 if ( pKnzDebug )
                 {
-                    wl( padL( this.index_read, 4 ) + " | Recursion Nr " + padL( pRecursionNr, 3 ) +  " | Number " + padL( new_number, 6 ) + " " + last_op + " = " + padL( term_result, 8 ) );
+                    wl( padL( this.index_read, 4 ) + " " + this.cur_char + " | Recursion Nr " + padL( pRecursionNr, 3 ) +  " | Number " + padL( new_number, 6 ) + " " + last_op + " = " + padL( term_result, 8 ) );
                 }
 
                 /*
@@ -256,14 +292,15 @@ class FktParser
 
                 if ( this.knz_is_part2 )
                 {
-                    let new_number : number = this.parseTerm( pRecursionNr++, pKnzDebug );
+                    let new_number : number = this.parseTerm( pRecursionNr + 1, pKnzDebug );
+                    let old_number : number = term_result;
 
-                    if ( new_number === 59046 )
+                    if ( new_number === 15 )
                     {
                         wl( "Break" );
                     }
 
-                        if ( last_op === '+' ) { term_result += new_number; }
+                         if ( last_op === '+' ) { term_result += new_number; }
                     else if ( last_op === '*' ) { term_result *= new_number; }
                     else { term_result = new_number; }
 
@@ -271,7 +308,7 @@ class FktParser
 
                     if ( pKnzDebug )
                     {
-                        wl( padL( this.index_read, 4 ) + " | Recursion Nr " + padL( pRecursionNr, 3 ) +  " | *      " + padL( new_number, 6 ) + " " + last_op + " = " + padL( term_result, 8 ) );
+                        wl( padL( this.index_read, 4 ) + " " + this.cur_char + " | Recursion Nr " + padL( pRecursionNr, 3 ) +  " | *      " + padL( new_number, 6 ) + " " + last_op + " = " + padL( term_result, 8 )  + "  old number " + old_number );
                     }
                 }
             }
@@ -281,9 +318,9 @@ class FktParser
             }
             else if ( this.cur_char === '(' ) 
             {  
-                let new_number : number = this.parseTerm( pRecursionNr++, pKnzDebug );
+                let new_number : number = this.parseTerm( pRecursionNr + 1, pKnzDebug );
 
-                if ( new_number === 59046 )
+                if ( new_number === 217 )
                 {
                     wl( "Break" );
                 }
@@ -296,14 +333,14 @@ class FktParser
 
                 if ( pKnzDebug )
                 {
-                    wl( padL( this.index_read, 4 ) + " | Recursion Nr " + padL( pRecursionNr, 3 ) +  " | ()     " + padL( new_number, 6 ) + " " + last_op + " = " + padL( term_result, 8 ) );
+                    wl( padL( this.index_read, 4 ) + " " + this.cur_char + " | Recursion Nr " + padL( pRecursionNr, 3 ) +  " | ()     " + padL( new_number, 6 ) + " " + last_op + " = " + padL( term_result, 8 ) );
                 }
             }
         }
 
         if ( pKnzDebug )
         {
-            wl( padL( this.index_read, 4 ) + " | Recursion Nr " + padL( pRecursionNr, 3 ) +  " | Parser End  " + last_op + "   = " + padL( term_result, 8 ) );
+            wl( padL( this.index_read, 4 ) + " " + this.cur_char + " | Recursion Nr " + padL( pRecursionNr, 3 ) +  " | Parser End  " + last_op + "   = " + padL( term_result, 8 ) );
         }
 
          return term_result;
@@ -463,11 +500,35 @@ wl( "" );
 // testCalcFunction( "2 * 3 + (4 * 5) ",                                     46, true, true );
 // testCalcFunction( "5 + (8 * 3 + 9 + 3 * 4 * 3) ",                       1445, true, true );
 // testCalcFunction( "5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4)) ",       669060, true, true );
-testCalcFunction( "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2 + 0",  23340, true, true );
+// testCalcFunction( "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2 ",  23340, true, true );
+// testCalcFunction( "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 7) + 2 + 4 * 2 ",  23340, true, true );
+
+testCalcFunction( "((1 + 1 * 10) * (1 + 1 * 2 + 2) + 20) + 30 + 40 * 50",  23340, true, true );
+testCalcFunction( "((1 + 1 * 10) + 20 ) + 40 * 2",  160, true, true );
+
+testCalcFunction( "((1 + 1 * 10) + 20 ) + 40 + 10 * 2",  180, true, true );
+
+testCalcFunction( "((1 + 1 * 10) * ( 2 + 8 ) + 20 ) + 40 + 10 * 2",  180, true, true );
+
+testCalcFunction( "((2) * ( 2 ) ) + 4 ",  8, true, true );
+
+
+testCalcFunction( "1 + 1 * 2 + 2",  8, true, true );
+testCalcFunction( "(1 + 1) * 2 + 2",  8, true, true );
+testCalcFunction( "((1 + 1) * 2) + 2",  6, true, true );
+
+
+testCalcFunction( "(1 + 1) * (2 + 2)",  8, true, true );
+testCalcFunction( "(1 + 1) * (2 + 2) + 1",  10, true, true );
+testCalcFunction( "(1 + 1  *  2 + 2) + 1",  9, true, true );
+
+testCalcFunction( "(1 + 1  *  2 + 2) + 1 * 2",  18, true, true );
+
+testCalcFunction( "(1 + 1) * (2 + 2) + 1 * 2",  20, true, true );
+testCalcFunction( "(1 + 1) * (2 + 2) + 1 + 2 * 2",  20, true, true );
+testCalcFunction( " 1 + 1  *  2 + 2  + 1 + 2 * 2",  20, true, true );
 
 testCalcFunction( "1 + 2 * 3 + 4 * 5 + 6",  231, true, true );
-
-
 
 
 //calcArray( getTestArray1(), true );
@@ -480,3 +541,319 @@ wl( "")
 
 wl( "" )
 wl( "Day 18 - End " );
+
+/*
+/home/ea234/.nvm/versions/node/v20.16.0/bin/node ./dist/day18/day_18__Operation_Order.js
+
+Day 18 - Operation Order
+
+----------------------------------------------------------------------
+
+   3   | Recursion Nr   2 | Number      1   =        1
+   7   | Recursion Nr   2 | Number      1 + =        2
+  12 ) | Recursion Nr   3 | Number     10   =       10
+  13 ) | Recursion Nr   2 | *          10   =       20  old number 2
+  18   | Recursion Nr   4 | Number      1   =        1
+  22   | Recursion Nr   4 | Number      1 + =        2
+  26   | Recursion Nr   5 | Number      2   =        2
+  30 ) | Recursion Nr   5 | Number      2 + =        4
+  31 ) | Recursion Nr   4 | *           4   =        8  old number 2
+  36 ) | Recursion Nr   4 | Number     20 + =       28
+  37 ) | Recursion Nr   3 | ()         28   =       28
+  42   | Recursion Nr   3 | Number     30 + =       58
+  47   | Recursion Nr   3 | Number     40 + =       98
+  52 0 | Recursion Nr   4 | Number     50   =       50
+  52 0 | Recursion Nr   4 | Parser End      =       50
+  52 0 | Recursion Nr   3 | *          50   =     4900  old number 98
+  52 0 | Recursion Nr   3 | Parser End      =     4900
+  52 0 | Recursion Nr   2 | *        4900   =    98000  old number 20
+  52 0 | Recursion Nr   2 | Parser End      =    98000
+  52 0 | Recursion Nr   1 | ()      98000   =    98000
+  52 0 | Recursion Nr   1 | Parser End      =    98000
+  52 0 | Recursion Nr   0 | ()      98000   =    98000
+  52 0 | Recursion Nr   0 | Parser End      =    98000
+
+((1 + 1 * 10) * (1 + 1 * 2 + 2) + 20) + 30 + 40 * 50 = 98000
+
+((1 + 1 * 10) * (1 + 1 * 2 + 2) + 20) + 30 + 40 * 50 = 98000 => expected 23340  #### ERROR ####
+
+----------------------------------------------------------------------
+
+   3   | Recursion Nr   2 | Number      1   =        1
+   7   | Recursion Nr   2 | Number      1 + =        2
+  12 ) | Recursion Nr   3 | Number     10   =       10
+  13 ) | Recursion Nr   2 | *          10   =       20  old number 2
+  18   | Recursion Nr   2 | Number     20 + =       40
+  20 ) | Recursion Nr   1 | ()         40   =       40
+  25   | Recursion Nr   1 | Number     40 + =       80
+  29 2 | Recursion Nr   2 | Number      2   =        2
+  29 2 | Recursion Nr   2 | Parser End      =        2
+  29 2 | Recursion Nr   1 | *           2   =      160  old number 80
+  29 2 | Recursion Nr   1 | Parser End      =      160
+  29 2 | Recursion Nr   0 | ()        160   =      160
+  29 2 | Recursion Nr   0 | Parser End      =      160
+
+((1 + 1 * 10) + 20 ) + 40 * 2 = 160
+
+((1 + 1 * 10) + 20 ) + 40 * 2 = 160 => expected 160  OK
+
+----------------------------------------------------------------------
+
+   3   | Recursion Nr   2 | Number      1   =        1
+   7   | Recursion Nr   2 | Number      1 + =        2
+  12 ) | Recursion Nr   3 | Number     10   =       10
+  13 ) | Recursion Nr   2 | *          10   =       20  old number 2
+  18   | Recursion Nr   2 | Number     20 + =       40
+  20 ) | Recursion Nr   1 | ()         40   =       40
+  25   | Recursion Nr   1 | Number     40 + =       80
+  30   | Recursion Nr   1 | Number     10 + =       90
+  34 2 | Recursion Nr   2 | Number      2   =        2
+  34 2 | Recursion Nr   2 | Parser End      =        2
+  34 2 | Recursion Nr   1 | *           2   =      180  old number 90
+  34 2 | Recursion Nr   1 | Parser End      =      180
+  34 2 | Recursion Nr   0 | ()        180   =      180
+  34 2 | Recursion Nr   0 | Parser End      =      180
+
+((1 + 1 * 10) + 20 ) + 40 + 10 * 2 = 180
+
+((1 + 1 * 10) + 20 ) + 40 + 10 * 2 = 180 => expected 180  OK
+
+----------------------------------------------------------------------
+
+   3   | Recursion Nr   2 | Number      1   =        1
+   7   | Recursion Nr   2 | Number      1 + =        2
+  12 ) | Recursion Nr   3 | Number     10   =       10
+  13 ) | Recursion Nr   2 | *          10   =       20  old number 2
+  19   | Recursion Nr   4 | Number      2   =        2
+  23   | Recursion Nr   4 | Number      8 + =       10
+  25 ) | Recursion Nr   3 | ()         10   =       10
+  30   | Recursion Nr   3 | Number     20 + =       30
+  32 ) | Recursion Nr   2 | *          30   =      600  old number 20
+  37   | Recursion Nr   2 | Number     40 + =      640
+  42   | Recursion Nr   2 | Number     10 + =      650
+  46 2 | Recursion Nr   3 | Number      2   =        2
+  46 2 | Recursion Nr   3 | Parser End      =        2
+  46 2 | Recursion Nr   2 | *           2   =     1300  old number 650
+  46 2 | Recursion Nr   2 | Parser End      =     1300
+  46 2 | Recursion Nr   1 | ()       1300   =     1300
+  46 2 | Recursion Nr   1 | Parser End      =     1300
+  46 2 | Recursion Nr   0 | ()       1300   =     1300
+  46 2 | Recursion Nr   0 | Parser End      =     1300
+
+((1 + 1 * 10) * ( 2 + 8 ) + 20 ) + 40 + 10 * 2 = 1300
+
+((1 + 1 * 10) * ( 2 + 8 ) + 20 ) + 40 + 10 * 2 = 1300 => expected 180  #### ERROR ####
+
+----------------------------------------------------------------------
+
+   3 ) | Recursion Nr   2 | Number      2   =        2
+   4 ) | Recursion Nr   1 | ()          2   =        2
+  10   | Recursion Nr   3 | Number      2   =        2
+  12 ) | Recursion Nr   2 | ()          2   =        2
+  14 ) | Recursion Nr   1 | *           2   =        4  old number 2
+  19   | Recursion Nr   1 | Number      4 + =        8
+  19   | Recursion Nr   1 | Parser End      =        8
+  19   | Recursion Nr   0 | ()          8   =        8
+  19   | Recursion Nr   0 | Parser End      =        8
+
+((2) * ( 2 ) ) + 4  = 8
+
+((2) * ( 2 ) ) + 4  = 8 => expected 8  OK
+
+----------------------------------------------------------------------
+
+   1   | Recursion Nr   0 | Number      1   =        1
+   5   | Recursion Nr   0 | Number      1 + =        2
+   9   | Recursion Nr   1 | Number      2   =        2
+  13 2 | Recursion Nr   1 | Number      2 + =        4
+  13 2 | Recursion Nr   1 | Parser End      =        4
+  13 2 | Recursion Nr   0 | *           4   =        8  old number 2
+  13 2 | Recursion Nr   0 | Parser End      =        8
+
+1 + 1 * 2 + 2 = 8
+
+1 + 1 * 2 + 2 = 8 => expected 8  OK
+
+----------------------------------------------------------------------
+
+   2   | Recursion Nr   1 | Number      1   =        1
+   6 ) | Recursion Nr   1 | Number      1 + =        2
+   7 ) | Recursion Nr   0 | ()          2   =        2
+  11   | Recursion Nr   1 | Number      2   =        2
+  15 2 | Recursion Nr   1 | Number      2 + =        4
+  15 2 | Recursion Nr   1 | Parser End      =        4
+  15 2 | Recursion Nr   0 | *           4   =        8  old number 2
+  15 2 | Recursion Nr   0 | Parser End      =        8
+
+(1 + 1) * 2 + 2 = 8
+
+(1 + 1) * 2 + 2 = 8 => expected 8  OK
+
+----------------------------------------------------------------------
+
+   3   | Recursion Nr   2 | Number      1   =        1
+   7 ) | Recursion Nr   2 | Number      1 + =        2
+   8 ) | Recursion Nr   1 | ()          2   =        2
+  12 ) | Recursion Nr   2 | Number      2   =        2
+  13 ) | Recursion Nr   1 | *           2   =        4  old number 2
+  17 2 | Recursion Nr   1 | Number      2 + =        6
+  17 2 | Recursion Nr   1 | Parser End      =        6
+  17 2 | Recursion Nr   0 | ()          6   =        6
+  17 2 | Recursion Nr   0 | Parser End      =        6
+
+((1 + 1) * 2) + 2 = 6
+
+((1 + 1) * 2) + 2 = 6 => expected 6  OK
+
+----------------------------------------------------------------------
+
+   2   | Recursion Nr   1 | Number      1   =        1
+   6 ) | Recursion Nr   1 | Number      1 + =        2
+   7 ) | Recursion Nr   0 | ()          2   =        2
+  12   | Recursion Nr   2 | Number      2   =        2
+  17 ) | Recursion Nr   2 | Number      2 + =        4
+  17 ) | Recursion Nr   2 | Parser End      =        4
+  17 ) | Recursion Nr   1 | ()          4   =        4
+  17 ) | Recursion Nr   1 | Parser End      =        4
+  17 ) | Recursion Nr   0 | *           4   =        8  old number 2
+  17 ) | Recursion Nr   0 | Parser End      =        8
+
+(1 + 1) * (2 + 2) = 8
+
+(1 + 1) * (2 + 2) = 8 => expected 8  OK
+
+----------------------------------------------------------------------
+
+   2   | Recursion Nr   1 | Number      1   =        1
+   6 ) | Recursion Nr   1 | Number      1 + =        2
+   7 ) | Recursion Nr   0 | ()          2   =        2
+  12   | Recursion Nr   2 | Number      2   =        2
+  16 ) | Recursion Nr   2 | Number      2 + =        4
+  17 ) | Recursion Nr   1 | ()          4   =        4
+  21 1 | Recursion Nr   1 | Number      1 + =        5
+  21 1 | Recursion Nr   1 | Parser End      =        5
+  21 1 | Recursion Nr   0 | *           5   =       10  old number 2
+  21 1 | Recursion Nr   0 | Parser End      =       10
+
+(1 + 1) * (2 + 2) + 1 = 10
+
+(1 + 1) * (2 + 2) + 1 = 10 => expected 10  OK
+
+----------------------------------------------------------------------
+
+   2   | Recursion Nr   1 | Number      1   =        1
+   6   | Recursion Nr   1 | Number      1 + =        2
+  12   | Recursion Nr   2 | Number      2   =        2
+  16 ) | Recursion Nr   2 | Number      2 + =        4
+  17 ) | Recursion Nr   1 | *           4   =        8  old number 2
+  21 1 | Recursion Nr   1 | Number      1 + =        9
+  21 1 | Recursion Nr   1 | Parser End      =        9
+  21 1 | Recursion Nr   0 | ()          9   =        9
+  21 1 | Recursion Nr   0 | Parser End      =        9
+
+(1 + 1  *  2 + 2) + 1 = 9
+
+(1 + 1  *  2 + 2) + 1 = 9 => expected 9  OK
+
+----------------------------------------------------------------------
+
+   2   | Recursion Nr   1 | Number      1   =        1
+   6   | Recursion Nr   1 | Number      1 + =        2
+  12   | Recursion Nr   2 | Number      2   =        2
+  16 ) | Recursion Nr   2 | Number      2 + =        4
+  17 ) | Recursion Nr   1 | *           4   =        8  old number 2
+  21   | Recursion Nr   1 | Number      1 + =        9
+  25 2 | Recursion Nr   2 | Number      2   =        2
+  25 2 | Recursion Nr   2 | Parser End      =        2
+  25 2 | Recursion Nr   1 | *           2   =       18  old number 9
+  25 2 | Recursion Nr   1 | Parser End      =       18
+  25 2 | Recursion Nr   0 | ()         18   =       18
+  25 2 | Recursion Nr   0 | Parser End      =       18
+
+(1 + 1  *  2 + 2) + 1 * 2 = 18
+
+(1 + 1  *  2 + 2) + 1 * 2 = 18 => expected 18  OK
+
+----------------------------------------------------------------------
+
+   2   | Recursion Nr   1 | Number      1   =        1
+   6 ) | Recursion Nr   1 | Number      1 + =        2
+   7 ) | Recursion Nr   0 | ()          2   =        2
+  12   | Recursion Nr   2 | Number      2   =        2
+  16 ) | Recursion Nr   2 | Number      2 + =        4
+  17 ) | Recursion Nr   1 | ()          4   =        4
+  21   | Recursion Nr   1 | Number      1 + =        5
+  25 2 | Recursion Nr   2 | Number      2   =        2
+  25 2 | Recursion Nr   2 | Parser End      =        2
+  25 2 | Recursion Nr   1 | *           2   =       10  old number 5
+  25 2 | Recursion Nr   1 | Parser End      =       10
+  25 2 | Recursion Nr   0 | *          10   =       20  old number 2
+  25 2 | Recursion Nr   0 | Parser End      =       20
+
+(1 + 1) * (2 + 2) + 1 * 2 = 20
+
+(1 + 1) * (2 + 2) + 1 * 2 = 20 => expected 20  OK
+
+----------------------------------------------------------------------
+
+   2   | Recursion Nr   1 | Number      1   =        1
+   6 ) | Recursion Nr   1 | Number      1 + =        2
+   7 ) | Recursion Nr   0 | ()          2   =        2
+  12   | Recursion Nr   2 | Number      2   =        2
+  16 ) | Recursion Nr   2 | Number      2 + =        4
+  17 ) | Recursion Nr   1 | ()          4   =        4
+  21   | Recursion Nr   1 | Number      1 + =        5
+  25   | Recursion Nr   1 | Number      2 + =        7
+  29 2 | Recursion Nr   2 | Number      2   =        2
+  29 2 | Recursion Nr   2 | Parser End      =        2
+  29 2 | Recursion Nr   1 | *           2   =       14  old number 7
+  29 2 | Recursion Nr   1 | Parser End      =       14
+  29 2 | Recursion Nr   0 | *          14   =       28  old number 2
+  29 2 | Recursion Nr   0 | Parser End      =       28
+
+(1 + 1) * (2 + 2) + 1 + 2 * 2 = 28
+
+(1 + 1) * (2 + 2) + 1 + 2 * 2 = 28 => expected 20  #### ERROR ####
+
+----------------------------------------------------------------------
+
+   2   | Recursion Nr   0 | Number      1   =        1
+   6   | Recursion Nr   0 | Number      1 + =        2
+  12   | Recursion Nr   1 | Number      2   =        2
+  16   | Recursion Nr   1 | Number      2 + =        4
+  21   | Recursion Nr   1 | Number      1 + =        5
+  25   | Recursion Nr   1 | Number      2 + =        7
+  29 2 | Recursion Nr   2 | Number      2   =        2
+  29 2 | Recursion Nr   2 | Parser End      =        2
+  29 2 | Recursion Nr   1 | *           2   =       14  old number 7
+  29 2 | Recursion Nr   1 | Parser End      =       14
+  29 2 | Recursion Nr   0 | *          14   =       28  old number 2
+  29 2 | Recursion Nr   0 | Parser End      =       28
+
+ 1 + 1  *  2 + 2  + 1 + 2 * 2 = 28
+
+ 1 + 1  *  2 + 2  + 1 + 2 * 2 = 28 => expected 20  #### ERROR ####
+
+----------------------------------------------------------------------
+
+   1   | Recursion Nr   0 | Number      1   =        1
+   5   | Recursion Nr   0 | Number      2 + =        3
+   9   | Recursion Nr   1 | Number      3   =        3
+  13   | Recursion Nr   1 | Number      4 + =        7
+  17   | Recursion Nr   2 | Number      5   =        5
+  21 6 | Recursion Nr   2 | Number      6 + =       11
+  21 6 | Recursion Nr   2 | Parser End      =       11
+  21 6 | Recursion Nr   1 | *          11   =       77  old number 7
+  21 6 | Recursion Nr   1 | Parser End      =       77
+  21 6 | Recursion Nr   0 | *          77   =      231  old number 3
+  21 6 | Recursion Nr   0 | Parser End      =      231
+
+1 + 2 * 3 + 4 * 5 + 6 = 231
+
+1 + 2 * 3 + 4 * 5 + 6 = 231 => expected 231  OK
+
+---------------------------------------------------------------
+
+Day 18 - End
+
+*/
