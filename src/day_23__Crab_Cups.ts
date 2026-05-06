@@ -137,11 +137,11 @@ function padL( pInput : string | number, pPadLeft : number ) : string
 }
 
 
-function toStringNumVec( pVektor : number[] ) : string 
+function toStringNumVec( pVector : number[] ) : string 
 {
     let str_result : string = "";
 
-    for ( let cur_num of pVektor )
+    for ( let cur_num of pVector )
     {
         str_result += " " + padL( cur_num, 2 );
     }
@@ -150,11 +150,11 @@ function toStringNumVec( pVektor : number[] ) : string
 }
 
 
-function findIndex( vector : number[], label : number ) : number 
+function findIndex( pVector : number[], pLabel : number ) : number 
 {
-    for ( let idx = 0; idx < vector.length; idx++ )
+    for ( let idx = 0; idx < pVector.length; idx++ )
     {
-        if ( vector[ idx ] === label ) 
+        if ( pVector[ idx ] === pLabel ) 
         {
             return idx;
         }
@@ -168,7 +168,7 @@ function calcString( pString : string ) : string
 {
     /*
      * Using 2 Vectors to minimize ram usage
-     * Vektor "num_vector_b" is only for temp usage.
+     * Vector "num_vector_b" is only for temp usage.
      */
 
     let num_vector_a : number[] = pString.trim().split( "" ).map( Number );
@@ -183,6 +183,20 @@ function calcString( pString : string ) : string
 
     let current_cup_index : number = 0;
 
+
+    const incIndex = ( pIndex : number, pAmount : number = 1 ) => {
+
+        pIndex += pAmount;
+
+        if ( pIndex >= num_vector_length )
+        {
+            return pIndex - num_vector_length;
+        }
+
+        return pIndex;        
+    }
+
+
     wl( padL( move_nr, 3 ) + "  cup_idx " + padL( current_cup_index, 3 ) + "  cup_label " + padL( num_vector_a[ current_cup_index ]!, 3 ) + "  input  " + toStringNumVec( num_vector_a ) );
 
     while ( move_nr < move_max )
@@ -193,13 +207,9 @@ function calcString( pString : string ) : string
          *****************************************************************************
          */
 
-        let remove_cup_1_index : number = current_cup_index + 1;
-        let remove_cup_2_index : number = current_cup_index + 2;
-        let remove_cup_3_index : number = current_cup_index + 3;
-        
-        if ( remove_cup_1_index >= num_vector_length ) { remove_cup_1_index -= num_vector_length; }
-        if ( remove_cup_2_index >= num_vector_length ) { remove_cup_2_index -= num_vector_length; }
-        if ( remove_cup_3_index >= num_vector_length ) { remove_cup_3_index -= num_vector_length; }
+        let remove_cup_1_index : number = incIndex( current_cup_index    );
+        let remove_cup_2_index : number = incIndex( current_cup_index, 2 );
+        let remove_cup_3_index : number = incIndex( current_cup_index, 3 );
 
         let removed_cups : number[] = [ num_vector_a[ remove_cup_1_index ]!, num_vector_a[ remove_cup_2_index ]!, num_vector_a[ remove_cup_3_index ]! ];
 
@@ -222,10 +232,8 @@ function calcString( pString : string ) : string
          */
 
         let shift_index_dest : number = remove_cup_1_index;
-        let shift_index_src  : number = remove_cup_3_index + 1;
 
-        if ( shift_index_dest >= num_vector_length ) { shift_index_dest -= num_vector_length; }
-        if ( shift_index_src  >= num_vector_length ) { shift_index_src  -= num_vector_length; }
+        let shift_index_src  : number = incIndex( remove_cup_3_index );
 
         let count_nr  : number = 0;
 
@@ -240,11 +248,8 @@ function calcString( pString : string ) : string
 
             max_label = Math.max( max_label, num_vector_a[ shift_index_dest ]! );
 
-            shift_index_dest++;
-            shift_index_src++;
-
-            if ( shift_index_dest >= num_vector_length ) { shift_index_dest -= num_vector_length; }
-            if ( shift_index_src  >= num_vector_length ) { shift_index_src  -= num_vector_length; }
+            shift_index_dest = incIndex( shift_index_dest );
+            shift_index_src  = incIndex( shift_index_src  );
         }
 
         //wl( "after shift      " + toStringNumVec( num_vector_a ) );
@@ -271,7 +276,6 @@ function calcString( pString : string ) : string
             }
 
             insert_index_a = findIndex( num_vector_a, cup_destination_label );
-
         }
 
         //wl( "index insert = " + insert_index_a + "  cup_destination_label " + cup_destination_label );
@@ -282,17 +286,12 @@ function calcString( pString : string ) : string
          *****************************************************************************
          */
 
-        let insert_index_dest : number = insert_index_a + 1;
-        let insert_index_src  : number = insert_index_a + 1;
-
-        if ( insert_index_dest >= num_vector_length ) { insert_index_dest -= num_vector_length; }
-        if ( insert_index_src  >= num_vector_length ) { insert_index_src  -= num_vector_length; }
+        let insert_index_dest : number = incIndex( insert_index_a );
+        let insert_index_src  : number = incIndex( insert_index_a );
 
         while ( num_vector_a[ insert_index_src ] === -1 )
         {
-            insert_index_src++;
-
-            if ( insert_index_src  >= num_vector_length ) { insert_index_src  -= num_vector_length; }
+            insert_index_src = incIndex( insert_index_src );
         }
 
         count_nr = 0;
@@ -314,23 +313,17 @@ function calcString( pString : string ) : string
 
                 num_vector_b[ insert_index_dest ] = num_vector_a[ insert_index_src ]!;
 
-                insert_index_src++;
-
-                if ( insert_index_src  >= num_vector_length ) { insert_index_src  -= num_vector_length; }
+                insert_index_src = incIndex( insert_index_src );
 
                 while ( num_vector_a[ insert_index_src ] === -1 )
                 {
-                    insert_index_src++;
-                    
-                    if ( insert_index_src  >= num_vector_length ) { insert_index_src  -= num_vector_length; }
+                    insert_index_src = incIndex( insert_index_src );
                 }
             }
 
             count_nr++;
 
-            insert_index_dest++;
-
-            if ( insert_index_dest >= num_vector_length ) { insert_index_dest -= num_vector_length; }
+            insert_index_dest = incIndex( insert_index_dest );
         }
 
         for ( let copy_index = 0; copy_index < num_vector_a.length; copy_index++ )
@@ -342,12 +335,7 @@ function calcString( pString : string ) : string
 
         wl( padL( move_nr, 3 ) + "  cup_idx " + padL( current_cup_index, 3 ) + "  cup_label " + padL( current_cup_label, 3 ) + "  dest_label " + padL( cup_destination_label, 3 ) + "  removed " + toStringNumVec( removed_cups ) + "  result " + toStringNumVec( num_vector_a ) );
 
-        current_cup_index++;
-
-        if ( current_cup_index >= num_vector_length )
-        {
-            current_cup_index = 0;
-        }
+        current_cup_index = incIndex( current_cup_index );
     }
 
     /*
@@ -358,11 +346,11 @@ function calcString( pString : string ) : string
 
     let string_string = num_vector_a.join( "" ) + num_vector_a.join( "" );
 
-    let index_1_from  : number = string_string.indexOf( "1" ) + 1;
+    let index_1_from : number = string_string.indexOf( "1" ) + 1;
 
-    let index_1_to : number = string_string.indexOf( "1" , index_1_from );
+    let index_1_to   : number = string_string.indexOf( "1" , index_1_from );
 
-    let str_result : string = string_string.substring( index_1_from, index_1_to );
+    let str_result   : string = string_string.substring( index_1_from, index_1_to );
 
     wl( "" );
     wl( "index_1_from " + index_1_from + ", index_1_to =>" + index_1_to + ", length " + ( index_1_to - index_1_from ) + ", str_result  " + str_result + " " );
