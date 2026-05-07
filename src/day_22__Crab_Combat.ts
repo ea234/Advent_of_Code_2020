@@ -7,7 +7,7 @@ import * as readline from 'readline';
  * https://www.reddit.com/r/adventofcode/comments/khyjgv/2020_day_22_solutions/
  * 
  * 
-  * /home/ea234/.nvm/versions/node/v20.16.0/bin/node ./dist/day22/day_22__Crab_Combat.js
+ * /home/ea234/.nvm/versions/node/v20.16.0/bin/node ./dist/day22/day_22__Crab_Combat.js
  * 
  * Day 22 - Crab Combat
  * 
@@ -122,16 +122,18 @@ import * as readline from 'readline';
  * 
  * Player 1 - Cards:
  * Player 2 - Cards: 3, 2, 10, 6, 8, 5, 9, 4, 7, 1
- * index   9  card    1 * mult     1 =     10
- * index   8  card    7 * mult     2 =     63
- * index   7  card    4 * mult     3 =     32
- * index   6  card    9 * mult     4 =     63
- * index   5  card    5 * mult     5 =     30
- * index   4  card    8 * mult     6 =     40
- * index   3  card    6 * mult     7 =     24
- * index   2  card   10 * mult     8 =     30
- * index   1  card    2 * mult     9 =      4
- * index   0  card    3 * mult    10 =      3
+ * 
+ * 
+ * Index   9  Card  1 * Mult  1 =    1 =       1
+ * Index   8  Card  7 * Mult  2 =   14 =      15
+ * Index   7  Card  4 * Mult  3 =   12 =      27
+ * Index   6  Card  9 * Mult  4 =   36 =      63
+ * Index   5  Card  5 * Mult  5 =   25 =      88
+ * Index   4  Card  8 * Mult  6 =   48 =     136
+ * Index   3  Card  6 * Mult  7 =   42 =     178
+ * Index   2  Card 10 * Mult  8 =   80 =     258
+ * Index   1  Card  2 * Mult  9 =   18 =     276
+ * Index   0  Card  3 * Mult 10 =   30 =     306
  * 
  * Result Part 1 = 306
  * Result Part 2 = 0
@@ -202,12 +204,12 @@ class Player
 
         for ( let index_nr : number = this.cards.length - 1; index_nr >= 0; index_nr-- )
         {
+            result_nr += multiplicator * this.cards[ index_nr ]!;
+
             if ( pKnzDebug )
             {
-                wl( "index " + padL( index_nr, 3 ) + "  card " + padL( this.cards[ index_nr ]!, 4 ) + " * mult " + padL( multiplicator, 5 ) + " = " + padL( ( ( index_nr + 1 ) * this.cards[ index_nr ]! ), 6 ) );
+                wl( "Index " + padL( index_nr, 3 ) + "  Card " + padL( this.cards[ index_nr ]!, 2 ) + " * Mult " + padL( multiplicator, 2 ) + " = " + padL( ( multiplicator * this.cards[ index_nr ]! ), 4 )  + " = " + padL( result_nr, 7 ) );
             }
-
-            result_nr += multiplicator * this.cards[ index_nr ]!;
 
             multiplicator++;
         }
@@ -227,8 +229,9 @@ function calcArray( pArray : string[], pKnzDebug : boolean = true ) : void
     let result_part_01 : number = 0;
     let result_part_02 : number = 0;
 
-    let player_1 : Player = new Player( "1" );
-    let player_2 : Player = new Player( "2" );
+    let player_1   : Player = new Player( "1" );
+
+    let player_2   : Player = new Player( "2" );
 
     let cur_player : Player = player_1;
 
@@ -256,7 +259,7 @@ function calcArray( pArray : string[], pKnzDebug : boolean = true ) : void
 
     let round_nr : number = 0;
 
-    while ( ( round_nr < 32_000 ) && ( player_1.hasCards()  && player_2.hasCards() ) )
+    while ( player_1.hasCards() && player_2.hasCards() )
     {
         round_nr++;
 
@@ -307,6 +310,7 @@ function calcArray( pArray : string[], pKnzDebug : boolean = true ) : void
         wl( "" );
         wl( "Player 1 - Cards: " + player_1.toStringCards() );
         wl( "Player 2 - Cards: " + player_2.toStringCards() );
+        wl( "" );
     }
 
     if ( player_1.hasCards() )
