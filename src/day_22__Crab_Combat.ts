@@ -145,6 +145,7 @@ import * as readline from 'readline';
  * Result Part 2 = 0
  * 
  */
+type PropertieString = Record< string, string >;
 
 function wl( pString : string ) // wl = short for "writeLog"
 {
@@ -176,6 +177,20 @@ class Player
         this.name = pName;
     }
 
+    public getCopy() : Player
+    {
+        let result_player : Player = new Player( this.name );
+
+        result_player.setCards( this.cards );
+
+        return result_player;
+    }
+
+    public setCards( pCards : number[] ) : void 
+    {
+        this.cards = [ ...pCards ];
+    }
+
     public addCard( pNumber : number ) : void 
     {
         this.cards.push( pNumber );
@@ -194,6 +209,18 @@ class Player
     public hasCards() : boolean
     {
         return this.cards.length > 0;
+    }
+
+    public calcCardSum() : number 
+    {
+        let result_nr     : number = 0;
+
+        for ( let cur_number of this.cards )
+        {
+            result_nr += cur_number;
+        }
+
+        return result_nr;
     }
 
     public calcScore( pKnzDebug : boolean ) : number 
@@ -224,39 +251,8 @@ class Player
 }
 
 
-function calcArray( pArray : string[], pKnzDebug : boolean = true ) : void 
+function playCrabCombat01( player_1 : Player, player_2 : Player, pKnzDebug : boolean ) : number
 {
-    let result_part_01 : number = 0;
-    let result_part_02 : number = 0;
-
-    let player_1   : Player = new Player( "1" );
-
-    let player_2   : Player = new Player( "2" );
-
-    let cur_player : Player = player_1;
-
-    for ( const cur_input_str of pArray ) 
-    {
-        if ( cur_input_str === "" )
-        {
-            // do nothing
-        }
-        else if ( cur_input_str === "Player 1:" )
-        {
-            cur_player = player_1;
-        }
-        else if ( cur_input_str === "Player 2:" )
-        {
-            cur_player = player_2;
-        }
-        else
-        {
-            cur_player.addCard( parseInt( cur_input_str, 10 ) ); 
-        }
-
-        wl( cur_input_str );
-    }
-
     let round_nr : number = 0;
 
     while ( player_1.hasCards() && player_2.hasCards() )
@@ -315,12 +311,48 @@ function calcArray( pArray : string[], pKnzDebug : boolean = true ) : void
 
     if ( player_1.hasCards() )
     {
-        result_part_01 = player_1.calcScore( pKnzDebug );
+        return player_1.calcScore( pKnzDebug );
     }
-    else if ( player_2.hasCards() )
+
+    return player_2.calcScore( pKnzDebug );
+}
+
+
+function calcArray( pArray : string[], pKnzDebug : boolean = true ) : void 
+{
+    let result_part_01 : number = 0;
+    let result_part_02 : number = 0;
+
+    let player_1   : Player = new Player( "1" );
+
+    let player_2   : Player = new Player( "2" );
+
+    let cur_player : Player = player_1;
+
+    for ( const cur_input_str of pArray ) 
     {
-        result_part_01 = player_2.calcScore( pKnzDebug );
+        if ( cur_input_str === "" )
+        {
+            // do nothing
+        }
+        else if ( cur_input_str === "Player 1:" )
+        {
+            cur_player = player_1;
+        }
+        else if ( cur_input_str === "Player 2:" )
+        {
+            cur_player = player_2;
+        }
+        else
+        {
+            cur_player.addCard( parseInt( cur_input_str, 10 ) ); 
+        }
+
+        wl( cur_input_str );
     }
+
+    result_part_01 = playCrabCombat01( player_1, player_2, pKnzDebug );
+
 
     wl( "" );
     wl( "Result Part 1 = " + result_part_01 );
@@ -399,3 +431,4 @@ checkReaddatei();
 
 wl( "" )
 wl( "Day 22 - End " );
+
