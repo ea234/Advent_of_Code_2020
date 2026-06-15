@@ -6,6 +6,11 @@ import * as readline from 'readline';
  * 
  * https://www.reddit.com/r/adventofcode/comments/kj96iw/2020_day_24_solutions/
  * 
+ * Similar Challenge
+ * AOC 2017 - Day 11 - https://adventofcode.com/2017/day/11
+ * 
+ * https://github.com/ea234/Advent_of_Code_2017/blob/main/src/de/ea234/aoc2017/day11/Day11_HexEd.java
+ * 
  * 
  * 
  * https://codegolf.stackexchange.com/questions/70166/draw-and-label-an-ascii-hexagonal-grid
